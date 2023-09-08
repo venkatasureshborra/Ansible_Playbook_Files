@@ -1,0 +1,68 @@
+---
+# tasks file for tomcat-server
+    - name: Install Java
+      yum:
+        name: "{{java_version}}"
+        state: present
+    - name: add tomcatuser
+      user:
+        name: tomcat
+        shell: /sbin/nologin
+    - name: Tomcat-10 Installation
+      get_url:
+        url: "{{tomcat_version_url}}" 
+        dest: /tmp/
+    - name: copy
+      copy:
+        src: "/tmp/{{tomcat_zip}}"
+        dest: /usr/local/
+        remote_src: yes
+    - name: Unpacking the archive
+      unarchive:
+        src: "/usr/local/{{tomcat_zip}}"
+        dest: /usr/local
+        remote_src: yes
+    - name: Change file ownership, group and permissions
+      file:
+        path: "/usr/local/{{tomcat_version}}"
+        owner: tomcat
+        group: tomcat
+        recurse: yes
+        state: directory
+    - name: make tomcat symbolic link
+      file:
+        src: "/usr/local/{{tomcat_version}}"
+        dest: /usr/local/tomcat
+        owner: tomcat
+        group: tomcat
+        state: link
+    - name: make tomcat.service
+      file:
+        path: /etc/systemd/system/tomcat.service
+        state:  touch
+    - name: edit tomcat.service
+      blockinfile:
+        path: /etc/systemd/system/tomcat.service
+        insertafter:
+        block: |
+          [Unit]
+          Description = Apache Tomcat 10
+          After = syslog.target network.target
+          [Service]
+          User = tomcat
+          Group = tomcat
+          Type = oneshot
+          PIDFile ="/usr/local/{{tomcat_version}}/tomcat.pid"
+          RemainAfterExit = yes
+          ExecStart ="/usr/local/{{tomcat_version}}/bin/startup.sh"
+          ExecStop ="/usr/local/{{tomcat_version}}/bin/shutdown.sh"
+          ExecReStart =/usr/local/{{tomcat_version}}/bin/shutdown.sh;/usr/local/{{tomcat_version}}/bin/startup.sh
+          [Install]
+          WantedBy = multi-user.target
+      notify:
+        - start tomcat
+    - name: chmod 755 tomcat.service
+      file:
+        path: /etc/systemd/system/tomcat.service
+        mode:  0755
+...

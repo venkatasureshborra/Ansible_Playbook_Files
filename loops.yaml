@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - name: install the pacakges
+      yum: 
+        #name: "{{item}}"
+       name: [zip, unzip,tree]
+       state: present
+      #with_items: 
+      #   - zip
+      #  - tree
+      #  - unzip
+...

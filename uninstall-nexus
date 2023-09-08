@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: unistall nexus server
+      shell: rm -rf /opt/nexus*
+    - name: unistall sonatype-work
+      shell: rm -rf /opt/sonatype-work
+

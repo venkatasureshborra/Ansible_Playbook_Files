@@ -1,0 +1,30 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Create venkat User
+    user:
+      name: venkat
+      create_home: true
+      shell: /bin/bash
+      comment: "Ansible Management Account"
+      expires: -1
+      password: "{{ '1***5' | password_hash('sha512','A512') }}"
+  - name: Setup Sudo Access for venkat User
+    copy:
+      dest: /etc/sudoers.d/venkat
+      content: 'venkat ALL=(ALL) NOPASSWD: ALL' 
+      validate: /usr/sbin/visudo -cf %s
+  -  name: Disable Password Authentication
+     lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^PasswordAuthentication'
+        line="PasswordAuthentication yes"
+        state=present
+        backup=yes
+     notify:
+       - restart ssh
+  handlers:
+  - name: restart ssh
+    service:
+      name=sshd
+      state=restarted

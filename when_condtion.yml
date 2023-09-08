@@ -1,0 +1,16 @@
+--- 
+- hosts: all 
+  become: yes
+  tasks: 
+     - name: install apache server in amazon-linux
+       yum: 
+         name: httpd
+         state: latest
+       when: ansible_distribution == 'Amazon'
+     - name: install apache server in ubuntu
+       apt:
+         name: apache2
+         state: latest
+       when: ansible_distribution == 'Ubuntu'
+... 
+

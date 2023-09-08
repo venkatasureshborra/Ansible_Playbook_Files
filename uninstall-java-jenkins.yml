@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: uninstall openjdk
+      yum:
+        name: java-1.8.0-openjdk
+        state: absent
+    - name: uninstall jenkins
+      yum:
+        name: jenkins
+        state: absent
+    - name: Remove Jenkins folder
+      shell: rm -rf  /var/lib/jenkins
+      changed_when: false
+      register: result
+    
+
+

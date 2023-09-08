@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+     - name: install java
+       yum:
+         name: "{{java_version}}"
+     - name: debug output 
+       debug:
+         var: java_version
+...

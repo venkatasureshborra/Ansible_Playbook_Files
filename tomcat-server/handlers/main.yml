@@ -1,0 +1,10 @@
+---
+# handlers file for tomcat-server
+- name: start tomcat
+  service:
+        name: tomcat.service
+        state: started
+        daemon_reload: yes
+        enabled: yes
+
+...

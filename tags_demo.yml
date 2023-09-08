@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no    
+  tasks: 
+     - name: create the file
+       tags:
+         - create-file
+       file:
+         name: tags.txt
+         state: touch
+     - name: delete the filies
+       tags:
+         - delete
+       shell:
+         cmd: rm -rf /tmp/* 
+     - name: copy the content
+       tags: 
+          - copied
+       copy:
+         src: "{{usrdir}}"
+         dest: /tmp/
+     - name: list the files in the tmp
+       tags:
+         - list-of-files
+         - display-debug
+       shell: ls /tmp/
+       register: files_list
+     - name: Display the list of files
+       tags:
+         - display-debug
+       debug:
+         var: files_list.stdout_lines
+...

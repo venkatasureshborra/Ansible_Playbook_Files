@@ -1,0 +1,6 @@
+---
+# vars file for nexus-server
+java_version: java-1.8.0-amazon-corretto-devel
+nexus_url: https://download.sonatype.com/nexus/3/nexus-3.59.0-01-unix.tar.gz
+nexus_zip: nexus-3.59.0-01-unix.tar.gz
+nexus_file: nexus-3.59.0-01

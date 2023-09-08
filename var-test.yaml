@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  vars_files:
+    variables.yaml
+  vars: 
+    name: Mr.Venkata Suresh
+    country: USA
+    to: Suresh
+  handlers:
+    - name: restart the httpd server
+      service:
+        name: httpd
+        state: restarted
+
+  tasks:
+    - name: create the template instead copy
+      template:
+        src: /home/ansible/playbooks/index.html
+        dest: /var/www/html/index.html
+      notify:
+        - restart the httpd server
+    - name: debug the variable
+      debug:
+        #var: name
+        msg: "Hello this is {{name}}"
+...

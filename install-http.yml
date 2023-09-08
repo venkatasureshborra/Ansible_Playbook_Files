@@ -1,0 +1,35 @@
+---
+- hosts: all
+  gather_facts: no
+  become: true
+  tasks:
+    - name: install the httpd server
+      yum:
+        name: httpd
+    - name: start the service
+      service: 
+        name: httpd
+        state: started
+    - name: copy the html page
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    - name: file_creator
+      file:
+        dest: /etc/ansible/ansible.cfg
+        state: touch
+    - name: permission_changes
+      file:
+        path: /etc/ansible/ansible.cfg
+        owner: ansible
+        group: ansible
+    - name: current-dir
+      file:
+        path: test/hi.txt
+        state: touch
+    - name: softlink_creation
+      file: 
+        src: /home/ansible/test/hi.txt
+        dest: /home/ansible/testing_2/link.txt
+        state: link
+...

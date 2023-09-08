@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks: 
+     - name: create the users
+       user:
+           name: venkat
+           state: present
+       become: true
+     - name: create the directories
+       file:
+           dest: /home/ansible/testing_2 
+           state: directory
+           mode: 400
+     - name: create the files
+       file:
+         dest: /home/ansible/test-2.txt
+         state: touch
+         mode: 444
+     - name: copy the content of the files 
+       copy:
+         src: /home/ansible/test3.txt
+         dest: /home/ansible/
+     - name: shell_commands
+       shell: ls
+...
+         
+           

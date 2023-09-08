@@ -1,0 +1,7 @@
+---
+# vars file for tomcat-server
+java_version: java-1.8.0-amazon-corretto-devel
+tomcat_version_url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.13/bin/apache-tomcat-10.1.13.tar.gz
+tomcat_zip: apache-tomcat-10.1.13.tar.gz
+tomcat_version: apache-tomcat-10.1.13
+...
