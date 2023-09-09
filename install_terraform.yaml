@@ -1,0 +1,24 @@
+---
+- name: Install Terraform on Amazon Linux 2
+  hosts: all
+  become: yes  # Run tasks with elevated privileges (sudo)
+
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          - yum-utils
+          - shadow-utils
+        state: present
+
+    - name: Add HashiCorp repository
+      shell: |
+        sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      async: 3600
+
+    - name: Install Terraform
+      yum:
+        name: terraform
+        state: present
+      async: 3600
+...
