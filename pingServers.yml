@@ -4,3 +4,9 @@
   tasks: 
     - name: ping the all servers
       ping:
+    - name: shell commands execution
+      shell: hostname 
+      register: ipofserver
+    - name: server Ip address
+      debug:
+        msg: "The IP Address of a server is {{ipofserver.stdout}}"
