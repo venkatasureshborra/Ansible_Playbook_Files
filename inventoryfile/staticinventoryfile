@@ -1,5 +1,5 @@
-172.31.39.9
-172.31.36.157
+172.31.39.9 ansible_user=ec2-user
+172.31.36.157 ansible_user=ec2-user
 
 [ubuntu_server]
-172.31.36.231
+172.31.36.231 ansible_user=ubuntu
